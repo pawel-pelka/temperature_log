@@ -8,9 +8,9 @@ def average_temp(measurements):
     average_T = sum_T / len(measurements)
     return average_T
 
-def loading_measurements():
+def loading_measurements(file):
     try:
-        with open("measurements.json", "r", encoding="utf-8") as file:
+        with open(file, "r", encoding="utf-8") as file:
             measurements = json.load(file)
     except FileNotFoundError:
         measurements = []
@@ -19,13 +19,13 @@ def loading_measurements():
         raise SystemExit(1)
     return measurements 
 
-def saving_measurements(measurements):
-    with open("measurements.json", "w", encoding="utf-8") as file:
+def saving_measurements(file, measurements):
+    with open(file, "w", encoding="utf-8") as file:
         json.dump(measurements, file, indent = 4)
 
             
     
-measurements = loading_measurements()
+measurements = loading_measurements("measurements.json")
 
 
 
@@ -62,7 +62,7 @@ while True:
         break
         
 
-saving_measurements(measurements)
+saving_measurements("measurements.json", measurements)
 
         
 
