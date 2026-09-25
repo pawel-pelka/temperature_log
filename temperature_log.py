@@ -7,16 +7,25 @@ def average_temp(measurements):
         sum_T = sum_T + i["temperature"] 
     average_T = sum_T / len(measurements)
     return average_T
+
+def loading_measurements():
+    try:
+        with open("measurements.json", "r", encoding="utf-8") as file:
+            measurements = json.load(file)
+    except FileNotFoundError:
+        measurements = []
+    except json.JSONDecodeError:
+        print("could't read the measurements.json invalid JSON")
+        raise SystemExit(1)
+    return measurements 
+
+def saving_measurements(measurements):
+    with open("measurements.json", "w", encoding="utf-8") as file:
+        json.dump(measurements, file, indent = 4)
+
             
     
-try:
-    with open("measurements.json", "r", encoding="utf-8") as file:
-        measurements = json.load(file)
-except FileNotFoundError:
-    measurements = []
-except json.JSONDecodeError:
-    print("couldn't read the measurements.json invalid JSON")
-    raise SystemExit(1)
+measurements = loading_measurements()
 
 
 
@@ -53,8 +62,7 @@ while True:
         break
         
 
-with open("measurements.json", "w", encoding="utf-8") as file:
-    json.dump(measurements, file, indent = 4)
+saving_measurements(measurements)
 
         
 
