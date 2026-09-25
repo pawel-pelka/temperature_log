@@ -14,6 +14,10 @@ try:
         measurements = json.load(file)
 except FileNotFoundError:
     measurements = []
+except json.JSONDecodeError:
+    print("couldn't read the measurements.json invalid JSON")
+    raise SystemExit(1)
+
 
 
 print("Do you want to add new measurement? (y/n)")
