@@ -38,7 +38,7 @@ while True:
 
     else:
         if not measurements:
-            print("You haven't save any measurements")
+            print("You haven't saved any measurements")
         else:
             print(f"There is {len(measurements)} measurements")
             for number, i in enumerate(measurements, start=1):
