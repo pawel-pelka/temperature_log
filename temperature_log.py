@@ -8,63 +8,59 @@ def average_temp(measurements):
     average_T = sum_T / len(measurements)
     return average_T
 
-def loading_measurements(file):
+def loading_measurements(filename):
     try:
-        with open(file, "r", encoding="utf-8") as file:
+        with open(filename, "r", encoding="utf-8") as file:
             measurements = json.load(file)
     except FileNotFoundError:
         measurements = []
     except json.JSONDecodeError:
-        print("could't read the measurements.json invalid JSON")
+        print(f"could't read the {filename}, invalid JSON")
         raise SystemExit(1)
     return measurements 
 
-def saving_measurements(file, measurements):
-    with open(file, "w", encoding="utf-8") as file:
+def saving_measurements(filename, measurements):
+    with open(filename, "w", encoding="utf-8") as file:
         json.dump(measurements, file, indent = 4)
 
-            
-    
-measurements = loading_measurements("measurements.json")
+def main():
+    measurements = loading_measurements("measurements.json")
 
+    print("Do you want to add new measurement? (y/n)")
+    while True:
+        answer = input()
+        if answer not in ("y", "n"):
+            print("Wrong input, type 'y' for yes, or 'n' for no")
+            continue
 
+        elif answer == "y":
+            city = input('At which city measurement was done?\n')
+            print("What temperature was measured?[°C]")
+            while True:
+                try:
+                    temperature = float(input())
+                except ValueError:
+                    print("Wrong input, give a numerical value of temeprature")
+                    continue
+                break
+            measurements.append({"city": city, "temperature": temperature})
+            print("Do you want to add another measurement?")
 
-print("Do you want to add new measurement? (y/n)")
-while True:
-    answer = input()
-    if answer not in ("y", "n"):
-        print("Wrong input, type 'y' for yes, or 'n' for no")
-        continue
-
-    elif answer == "y":
-        city = input('At which city measurement was done?\n')
-        print("What temperature was measured?[°C]")
-        while True:
-            try:
-                temperature = float(input())
-            except ValueError:
-                print("Wrong input, give a numerical value of temeprature")
-                continue
-            break
-        measurements.append({"city": city, "temperature": temperature})
-        print("Do you want to add another measurement?")
-
-    else:
-        if not measurements:
-            print("You haven't saved any measurements")
         else:
-            print(f"There is {len(measurements)} measurements")
-            for number, i in enumerate(measurements, start=1):
-                print(f"Measurement {number}: city: {i["city"]},"
-                f" temperature: {i["temperature"]} °C")
-            print(f"the average temperature from measurements was"
-            f" {average_temp(measurements)} °C")
-        break
-        
+            if not measurements:
+                print("You haven't saved any measurements")
+            else:
+                print(f"There is {len(measurements)} measurements")
+                for number, i in enumerate(measurements, start=1):
+                    print(f"Measurement {number}: city: {i["city"]},"
+                    f" temperature: {i["temperature"]} °C")
+                print(f"the average temperature from measurements was"
+                f" {average_temp(measurements)} °C")
+            break
+            
+    saving_measurements("measurements.json", measurements)
 
-saving_measurements("measurements.json", measurements)
-
-        
+main()
 
     
 
