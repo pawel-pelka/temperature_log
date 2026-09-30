@@ -41,6 +41,10 @@ def test_duplications_sorting():
                     { "city":"Paris", "temperature": 10}]
     assert check(test_measurements, ">", 5) == ["Berlin","Paris"]
 
+def test_wrong_symbol_check():
+    with pytest.raises(ValueError):
+        check(test_measurements, "?", 15)
+
 
 
 

@@ -30,14 +30,16 @@ def check(measurements, symbol, temp):
         for i in measurements:
             if i["temperature"] < temp:
                 results.add(i["city"])
-    if symbol == "=":
+    elif symbol == "=":
         for i in measurements:
             if i["temperature"] == temp:
                 results.add(i["city"])
-    if symbol == ">":
+    elif symbol == ">":
         for i in measurements:
             if i["temperature"] > temp:
                 results.add(i["city"])
+    else:
+        raise ValueError("Wrong symbol input")
     return sorted(results)
 
 
